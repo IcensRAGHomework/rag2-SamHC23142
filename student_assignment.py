@@ -33,7 +33,7 @@ def hw02_2(q2_pdf):
         docs.append(doc)
     
     text_splitter = RecursiveCharacterTextSplitter(
-        separators=["\n第", "\n   第"],
+        separators=["\n第", "\n 第", "\n  第", "\n   第"],
         chunk_size=5,
         chunk_overlap=0,
         # length_function=len
