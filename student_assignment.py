@@ -28,17 +28,18 @@ def hw02_2(q2_pdf):
     loader = PyPDFLoader(file_path = q2_pdf)
     docs = []
     docs_lazy = loader.lazy_load()
-
-    for doc in docs_lazy:
-        docs.append(doc)
     
+    merged_content = "\n\n".join(doc.page_content for doc in docs_lazy)
+
     text_splitter = RecursiveCharacterTextSplitter(
-        separators=["\n第", "\n 第", "\n  第", "\n   第"],
+        separators=["\n *第 +"],
         chunk_size=5,
         chunk_overlap=0,
+        is_separator_regex = True,
         # length_function=len
     )
-    texts = text_splitter.split_documents(docs)    
+
+    texts = text_splitter.split_text(merged_content)    
     
     #############Varify#####################
     # page_chunk_counts = []
@@ -47,9 +48,10 @@ def hw02_2(q2_pdf):
         # chunks = text_splitter.split_text(doc.page_content)
         # page_chunk_counts.append(len(chunks))
         # print(f"Page {i + 1} has {len(chunks)} chunks.")
-        # if(i == 7):
-            # for j, chunk in enumerate(chunks):
-                # print(f"Chunk {j + 1} of Page {i + 1}: {chunk}")
+        # if(i == 0):
+    # chunks = texts
+    # for j, chunk in enumerate(chunks):
+        # print(f"Chunk {j + 1} of : {chunk}")
     # print(sum(page_chunk_counts))
     
     return len(texts)
